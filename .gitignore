@@ -1,0 +1,60 @@
+# Archivos de macOS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+
+# Archivos de Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de diseño
+*.psd
+*.sketch
+*.ai
+*.fig
+
+# Dependencias
+node_modules/
+
+# Builds y Compilados
+build/
+dist/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de Entorno 
+.env
+
+# Claves GPG
+*.gpg
+
+# Backups 
+**/*.backup.*
+**/*.back.*
+*.bak
+*.swp
+*.tmp
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Miscelanea
+*.zip
+*.tar.gz
+*.rar
