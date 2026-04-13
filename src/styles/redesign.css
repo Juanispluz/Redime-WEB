@@ -1,0 +1,342 @@
+/* redesign.css */
+/* Styles specifically matching the user mockups across all 5 screens */
+
+/* GLOBAL & UTILS */
+.text-green-tag {
+  color: var(--primary-green);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+.text-blue-tag {
+  color: var(--primary-blue);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.text-blue { color: var(--primary-blue); }
+.text-green { color: var(--primary-green); }
+.bg-light-green { background-color: #e4f2e7; }
+.bg-light-blue { background-color: #e4f2e7; }
+.bg-green { background-color: var(--primary-green); color: white; }
+.bg-blue { background-color: var(--primary-blue); color: white; }
+.bg-salmon { background-color: #387373; color: white; }
+.text-center { text-align: center; }
+.w-full { width: 100%; }
+.mt-4 { margin-top: 1rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-8 { margin-bottom: 2rem; }
+
+/* Placeholder Cross Lines */
+.cross-line, .cross-line-2 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #2d3e40;
+}
+.cross-line { transform: translateY(-50%) rotate(25deg); }
+.cross-line-2 { transform: translateY(-50%) rotate(-25deg); }
+
+/* Buttons */
+.btn-lime {
+  background-color: var(--primary-green);
+  color: white;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  height: 50px;
+}
+
+/* HOME PAGE V2 */
+.home-page-v2 { padding-top: 5rem; }
+.hero-section-v2 {
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+}
+.hero-container-v2 {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin-left: 0;
+}
+.badge-meta {
+  display: inline-block;
+  background-color: var(--primary-green);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.hero-title-v2 {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.border-btn {
+  border: 1px solid #2d3e40;
+  background-color: white;
+  color: #2d3e40;
+  border-radius: 99px;
+  padding: 0.5rem 1.5rem;
+}
+
+.rescue-section { padding: 4rem 0; }
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0.5rem 0 1rem;
+}
+.section-desc { font-size: 1rem; color: #97a6a0; max-width: 600px; margin: 0 auto; }
+.rescue-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.rescue-card {
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 2rem;
+  background: white;
+}
+.rescue-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.rescue-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rescue-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+.rescue-subtitle { font-size: 0.85rem; font-weight: 600; }
+.rescue-steps-list li {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.rescue-steps-list p, .rescue-steps-list div { font-size: 0.95rem; color: #97a6a0; }
+
+.join-section { padding: 4rem 0; background-color: #e4f2e7; }
+.steps-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.step-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+.step-badge {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.step-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+.step-card p { font-size: 0.95rem; color: #97a6a0; margin-bottom: 1.5rem; min-height: 80px; }
+.stores-icons { display: flex; gap: 1rem; align-items: center; }
+.store-ic { height: 32px; }
+
+/* BLOG LIST */
+.blog-page { padding: 8rem 0; }
+.blog-header { margin-bottom: 4rem; }
+.blog-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.blog-card {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+.blog-img-placeholder {
+  height: 250px;
+  background-color: #e4f2e7;
+  position: relative;
+  overflow: hidden;
+}
+.blog-card-content { padding: 1.5rem; background-color: #e4f2e7; }
+.blog-card-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+.blog-card-content p { color: #97a6a0; font-size: 0.95rem; margin-bottom: 1rem; }
+.blog-date { font-weight: 700; font-size: 0.9rem; }
+
+/* BLOG DETALLE */
+.blog-det-page { padding: 7rem 0 4rem; }
+.blog-det-header {
+  position: relative;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+}
+.back-arrow { position: absolute; left: 0; color: #2d3e40; }
+.blog-det-date { font-weight: 700; color: #2d3e40; }
+.blog-det-title { font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem; }
+.blog-det-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.blog-det-text-col h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; }
+.blog-det-text-col p { margin-bottom: 1.5rem; color: #97a6a0; font-size: 1.05rem; }
+.placeholder-box {
+  width: 100%;
+  height: 400px;
+  background-color: #e4f2e7;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #97a6a0;
+}
+
+/* MUSEO DIGITAL LIST */
+.museo-page { padding: 8rem 0; }
+.museo-header { margin-bottom: 4rem; }
+.museo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.museo-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  background: white;
+}
+.museo-img-placeholder {
+  height: 300px;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #97a6a0;
+  border-bottom: none;
+}
+.museo-img-title-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 1rem 1.5rem;
+}
+.museo-exh-num { font-size: 0.8rem; font-weight: 700; color: #97a6a0; }
+.museo-img-title-overlay h2 { font-size: 1.5rem; font-weight: 800; }
+.museo-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e4f2e7;
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+}
+
+/* EXHIBICION DETALLE */
+.exh-det-header-bg {
+  background-color: #e4f2e7;
+  padding: 8rem 0 3rem;
+  position: relative;
+}
+.back-arrow-exh {
+  position: absolute;
+  top: 7rem;
+  left: 2rem;
+  color: #2d3e40;
+}
+.exh-det-header-content { max-width: 700px; margin: 0 auto; }
+.exh-det-title { font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0 1rem; }
+.exh-det-sub { color: #97a6a0; }
+
+.exh-det-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 3rem 0;
+}
+.exh-det-text p { margin-bottom: 1.5rem; color: #2d3e40; }
+.grey-solid-box {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  background-color: #97a6a0;
+}
+
+.exh-mem-container { padding-bottom: 4rem; }
+.exh-memories-box {
+  background-color: #e4f2e7;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.memories-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+.mem-accordion { display: flex; flex-direction: column; gap: 1rem; }
+.mem-acc-item {
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.mem-acc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+}
+.mem-acc-title { font-size: 1.2rem; font-weight: 700; }
+.mem-acc-owner { color: var(--primary-blue); font-size: 0.85rem; font-weight: 600; }
+.mem-acc-content { padding: 0 1.5rem 1.5rem; }
+.mem-acc-inner {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.mem-img-plc {
+  width: 100px;
+  height: 100px;
+  background-color: #e4f2e7;
+  position: relative;
+  flex-shrink: 0;
+  border: 1px solid #97a6a0;
+}
+
+@media (max-width: 768px) {
+  .rescue-grid, .steps-cards-grid, .blog-grid, .blog-det-content, .exh-det-body {
+    grid-template-columns: 1fr;
+  }
+}
