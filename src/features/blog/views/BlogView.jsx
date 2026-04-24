@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import BlogCard from '../components/BlogCard';
 
 const BlogView = () => {
   const blogs = [
@@ -50,16 +51,7 @@ const BlogView = () => {
 
         <div className="blog-grid">
           {blogs.map(item => (
-            <Link to={`/blog/${item.id}`} key={item.id} className="blog-card" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
-              <div className="blog-img-placeholder">
-                 <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div className="blog-card-content">
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-                <div className="blog-date">{item.date}</div>
-              </div>
-            </Link>
+            <BlogCard key={item.id} {...item} />
           ))}
         </div>
 

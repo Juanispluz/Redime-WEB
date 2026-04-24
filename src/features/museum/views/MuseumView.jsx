@@ -1,8 +1,15 @@
 import React from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import MuseumCard from '../components/MuseumCard';
 
 const MuseumView = () => {
+  const exhibitions = [
+    { id: '2', exhibitionNum: '2', title: 'El Faro del Ojo Público', imgSrc: '/museo_2.png', imgAlt: 'El Faro' },
+    { id: '1', exhibitionNum: '1', title: 'El Trono del Espectador Olvidado', imgSrc: '/museo_1.png', imgAlt: 'El Trono' },
+    { id: '3', exhibitionNum: '3', title: 'El Altar del Primer Esfuerzo', imgSrc: '/museo_3.png', imgAlt: 'El Altar' }
+  ];
+
   return (
     <div className="museo-page">
       <div className="container" style={{ position: 'relative' }}>
@@ -18,49 +25,9 @@ const MuseumView = () => {
         </div>
 
         <div className="museo-list">
-          
-          <div className="museo-card">
-            <div className="museo-img-placeholder">
-              <img src="/museo_2.png" alt="El Faro" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div className="museo-img-title-overlay">
-                <span className="museo-exh-num">Exhibición #2</span>
-                <h2>El Faro del Ojo Público</h2>
-              </div>
-            </div>
-            <Link to="/museo/2" className="museo-card-footer">
-              <span>Conoce su historia</span>
-              <ArrowRight size={24} className="text-blue" />
-            </Link>
-          </div>
-
-          <div className="museo-card">
-            <div className="museo-img-placeholder">
-              <img src="/museo_1.png" alt="El Trono" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div className="museo-img-title-overlay">
-                <span className="museo-exh-num">Exhibición #1</span>
-                <h2>El Trono del Espectador Olvidado</h2>
-              </div>
-            </div>
-            <Link to="/museo/1" className="museo-card-footer">
-              <span>Conoce su historia</span>
-              <ArrowRight size={24} className="text-blue" />
-            </Link>
-          </div>
-
-          <div className="museo-card">
-            <div className="museo-img-placeholder">
-              <img src="/museo_3.png" alt="El Altar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div className="museo-img-title-overlay">
-                <span className="museo-exh-num">Exhibición #3</span>
-                <h2>El Altar del Primer Esfuerzo</h2>
-              </div>
-            </div>
-            <Link to="/museo/3" className="museo-card-footer">
-              <span>Conoce su historia</span>
-              <ArrowRight size={24} className="text-blue" />
-            </Link>
-          </div>
-
+          {exhibitions.map((exh) => (
+            <MuseumCard key={exh.id} {...exh} />
+          ))}
         </div>
 
       </div>
