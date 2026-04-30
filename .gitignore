@@ -58,3 +58,6 @@ yarn-error.log*
 *.zip
 *.tar.gz
 *.rar
+
+# Volumenes de los contenedores
+volumes/

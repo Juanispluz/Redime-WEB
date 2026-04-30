@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14.22-trixie
+    container_name: ${DB_CONTAINER_NAME}
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ${DIR_NAME_DB}:/var/lib/postgresql/data
+      - ${DIR_DB}:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+
+  node:
+    build: .
+    container_name: ${APP_CONTAINER_NAME}
+    restart: always
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "${APP_PORT}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
