@@ -5,23 +5,32 @@ import Footer from './components/Footer';
 import { HomeView } from './features/home';
 import { MuseumView, ExhibitionDetailView } from './features/museum';
 import { BlogView, BlogDetailView } from './features/blog';
+import { StatusDbView } from './features/database';
 
 function App() {
   return (
     <Router>
-      <div className="app-container">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<HomeView />} />
-            <Route path="/museo" element={<MuseumView />} />
-            <Route path="/museo/:id" element={<ExhibitionDetailView />} />
-            <Route path="/blog" element={<BlogView />} />
-            <Route path="/blog/:id" element={<BlogDetailView />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        <Route path="/status-db" element={<StatusDbView />} />
+        <Route
+          path="/*"
+          element={
+            <div className="app-container">
+              <Header />
+              <main>
+                <Routes>
+                  <Route path="/" element={<HomeView />} />
+                  <Route path="/museo" element={<MuseumView />} />
+                  <Route path="/museo/:id" element={<ExhibitionDetailView />} />
+                  <Route path="/blog" element={<BlogView />} />
+                  <Route path="/blog/:id" element={<BlogDetailView />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

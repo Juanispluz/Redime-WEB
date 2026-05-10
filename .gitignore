@@ -37,6 +37,7 @@ yarn-error.log*
 
 # Variables de Entorno 
 .env
+firebase.json
 
 # Claves GPG
 *.gpg
