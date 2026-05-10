@@ -4,26 +4,20 @@ from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 
-# Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-# Leer la ruta del archivo de credenciales de administrador
-# Se usa GOOGLE_APPLICATION_CREDENTIALS o directamente 'firebase.json' como fallback
 cert_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "firebase.json")
 
 try:
-    # Inicializar la aplicación con el Admin SDK
     cred = credentials.Certificate(cert_path)
     firebase_admin.initialize_app(cred)
 except ValueError:
-    # Si la app ya estaba inicializada (p. ej., ejecutando múltiples veces en el mismo entorno)
     pass
 except FileNotFoundError:
     print(f"Error: No se encontró el archivo de credenciales en la ruta: {cert_path}")
     print("Asegúrate de que 'firebase.json' existe o la variable GOOGLE_APPLICATION_CREDENTIALS es correcta.")
     exit(1)
 
-# Cliente de Firestore
 db = firestore.client()
 
 def test_firestore():
@@ -35,10 +29,10 @@ def test_firestore():
         "nombre": "Ana",
         "apellido": "Pérez",
         "correo": "ana.perez@redime.co",
-        "telefono": "3001234567",
+        "telefono": 3001234567,                  # Int64, no string
         "direccion": "Cl. 10 #45-20, Medellín",
-        "documento_identidad": "102030",
-        "tipo_usuario": "donante",
+        "cedula": 102030,                        # Renombrado y como Int64
+        "tipo_usuario": "donante",               # "donante" | "visitante" | "administrador"
         "fecha_registro": datetime.now(timezone.utc),
         "preferencias": {
             "tipo_procesamiento_preferido": "commemoration",
@@ -64,7 +58,7 @@ def test_firestore():
     # 3. Crear un dispositivo asociado al usuario
     dispositivo_ref = db.collection('dispositivos').document('disp_test_001')
     dispositivo_data = {
-        "id_usuario": usuario_ref.path, # Guardando referencia como string
+        "id_usuario": usuario_ref,               # DocumentReference
         "marca": "Apple",
         "modelo": "iPhone 6",
         "ano_aproximado": 2014,
@@ -73,14 +67,13 @@ def test_firestore():
         "antiguedad": "más de 10 años",
         "funciona": False,
         "pieza_entera": True,
-        "foto_url": "https://ejemplo.com/foto.jpg",
         "fecha_registro": datetime.now(timezone.utc),
         "historia": {
             "texto_historia": "Me llamaban el mejor teléfono de su época, pero ahora me reciclarán.",
             "fecha_generacion": datetime.now(timezone.utc),
             "estado_aprobacion": "aprobada",
             "extracto": "Un iPhone 6 que dio su vida útil.",
-            "imagen_url": None,
+            # imagen_url eliminado (no está en el nuevo esquema)
             "publica": True
         }
     }
@@ -93,7 +86,7 @@ def test_firestore():
         "etapa": "delivery",
         "subestado": "Solicitud recibida",
         "fecha_actualizacion": datetime.now(timezone.utc),
-        "mensaje_usuario": "Tu solicitud fue registrada exitosamente.",
+        # mensaje_usuario eliminado (no está en el nuevo esquema)
         "procesamiento_tipo": "commemoration"
     }
     tracking_ref.set(tracking_data)
@@ -102,9 +95,9 @@ def test_firestore():
     # 5. Crear una solicitud
     solicitud_ref = db.collection('solicitudes').document('solicitud_test_001')
     solicitud_data = {
-        "id_usuario": usuario_ref,       # Guardando como DocumentReference
-        "id_dispositivo": dispositivo_ref,
-        "id_punto": punto_ref,
+        "id_usuario": usuario_ref,               # DocumentReference
+        "id_dispositivo": dispositivo_ref,       # DocumentReference
+        "id_punto": punto_ref,                   # DocumentReference (null si es a domicilio)
         "fecha_solicitud": datetime.now(timezone.utc),
         "metodo_entrega": "homePickup",
         "direccion": "Cl. 10 #45-20, Medellín",
@@ -114,7 +107,7 @@ def test_firestore():
     solicitud_ref.set(solicitud_data)
     print(f"Solicitud creada con ID: {solicitud_ref.id}")
 
-    print("\nTodos los datos de prueba fueron insertados exitosamente según el esquema definido en 'prueba'.")
+    print("\nTodos los datos de prueba fueron insertados exitosamente según el nuevo esquema.")
 
 if __name__ == "__main__":
     test_firestore()
