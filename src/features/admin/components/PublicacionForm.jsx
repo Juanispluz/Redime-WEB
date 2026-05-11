@@ -11,6 +11,9 @@ export function PublicacionForm({ user }) {
   const [success, setSuccess] = useState(false);
   const [publicaciones, setPublicaciones] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [imagenBlob, setImagenBlob] = useState(null);
+  const [imagenPreview, setImagenPreview] = useState(null);
+  const [imagenUrl, setImagenUrl] = useState('');
 
   useEffect(() => {
     const q = query(collection(db, 'publicaciones'), orderBy('fecha', 'desc'));
@@ -29,6 +32,64 @@ export function PublicacionForm({ user }) {
     setSubtitulo('');
     setDescripcion('');
     setEditingId(null);
+    setImagenBlob(null);
+    setImagenPreview(null);
+    setImagenUrl('');
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        canvas.toBlob((blob) => {
+          setImagenBlob(blob);
+        }, 'image/webp', 0.8);
+      };
+      img.src = event.target.result;
+      setImagenPreview(event.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadImageToNode = async (pubId) => {
+    if (!imagenBlob) return null;
+
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const folderPath = `imgs-db/publicaciones/${day}-${month}-${year}`;
+
+    const formData = new FormData();
+    // Utilizar el ID de la publicación como nombre
+    const filename = `${pubId}.webp`;
+    formData.append('image', imagenBlob, filename);
+    formData.append('path', folderPath);
+
+    try {
+      const response = await fetch('http://localhost:3000/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Error en el servidor al subir la imagen');
+      const data = await response.json();
+      return data.url || `/${folderPath}/${filename}`;
+    } catch (err) {
+      console.warn('Advertencia: Error subiendo imagen al servidor Node, usando fallback de ruta:', err);
+      // Si el servidor no está listo, retornamos la ruta final que debería tener para no bloquear
+      return `/${folderPath}/${filename}`;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -43,19 +104,32 @@ export function PublicacionForm({ user }) {
 
     setSubmitting(true);
     try {
+      // Creamos la referencia al documento ANTES para obtener el ID real
+      const pubRef = editingId ? doc(db, 'publicaciones', editingId) : doc(collection(db, 'publicaciones'));
+      const pubId = pubRef.id;
+
+      let uploadedUrl = imagenUrl;
+
+      if (imagenBlob) {
+        uploadedUrl = await uploadImageToNode(pubId);
+      }
+
       if (editingId) {
-        await updateDoc(doc(db, 'publicaciones', editingId), {
+        await updateDoc(pubRef, {
           titulo,
           subtitulo,
           descripcion,
-          fecha: serverTimestamp(),
+          ...(uploadedUrl && { imagenUrl: uploadedUrl }),
         });
       } else {
-        await addDoc(collection(db, 'publicaciones'), {
+        // En lugar de addDoc, usamos setDoc porque ya generamos el doc reference (pubRef)
+        const { setDoc } = await import('firebase/firestore');
+        await setDoc(pubRef, {
           id_usuario: doc(db, 'usuarios', user.uid),
           titulo,
           subtitulo,
           descripcion,
+          ...(uploadedUrl && { imagenUrl: uploadedUrl }),
           fecha: serverTimestamp(),
           estado: true,
         });
@@ -76,6 +150,9 @@ export function PublicacionForm({ user }) {
     setTitulo(pub.titulo || '');
     setSubtitulo(pub.subtitulo || '');
     setDescripcion(pub.descripcion || '');
+    setImagenUrl(pub.imagenUrl || '');
+    setImagenPreview(getDynamicImageUrl(pub));
+    setImagenBlob(null);
     setEditingId(pub.id);
     setError('');
   };
@@ -93,6 +170,16 @@ export function PublicacionForm({ user }) {
     if (!f) return '';
     const d = f.toDate ? f.toDate() : new Date(f);
     return d.toLocaleString('es-CO', { timeZone: 'UTC' });
+  };
+
+  const getDynamicImageUrl = (pub) => {
+    if (pub.imagenUrl) return pub.imagenUrl;
+    if (!pub.fecha) return '/no_image.png';
+    const d = pub.fecha.toDate ? pub.fecha.toDate() : new Date(pub.fecha);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `/imgs-db/publicaciones/${day}-${month}-${year}/${pub.id}.webp`;
   };
 
   return (
@@ -136,6 +223,24 @@ export function PublicacionForm({ user }) {
             />
           </div>
 
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'block' }}>Imagen (se convertirá a WebP):</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: 'block', marginBottom: '0.5rem' }}
+            />
+            {imagenPreview && (
+              <img
+                src={imagenPreview}
+                alt="Preview"
+                style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain', border: '1px solid #ccc', borderRadius: '4px', padding: '4px' }}
+                onError={(e) => { e.target.src = '/no_image.png'; }}
+              />
+            )}
+          </div>
+
           {editingId && (
             <button type="button" onClick={resetForm} style={{ marginRight: '0.5rem' }}>
               Cancelar
@@ -160,6 +265,7 @@ export function PublicacionForm({ user }) {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #ccc', textAlign: 'left' }}>
+                <th style={{ padding: '0.5rem' }}>Imagen</th>
                 <th style={{ padding: '0.5rem' }}>Título</th>
                 <th style={{ padding: '0.5rem' }}>Subtítulo</th>
                 <th style={{ padding: '0.5rem' }}>Fecha</th>
@@ -169,6 +275,14 @@ export function PublicacionForm({ user }) {
             <tbody>
               {publicaciones.map((pub) => (
                 <tr key={pub.id} style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '0.5rem' }}>
+                    <img 
+                      src={getDynamicImageUrl(pub)} 
+                      alt="Pub" 
+                      style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
+                      onError={(e) => { e.target.src = '/no_image.png'; }}
+                    />
+                  </td>
                   <td style={{ padding: '0.5rem' }}>{pub.titulo}</td>
                   <td style={{ padding: '0.5rem' }}>{pub.subtitulo}</td>
                   <td style={{ padding: '0.5rem' }}>{formatFecha(pub.fecha)}</td>

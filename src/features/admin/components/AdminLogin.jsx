@@ -5,17 +5,25 @@ import { auth } from '../../../services/firebaseClient';
 export function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [intentos, setIntentos] = useState(0);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Es mejor práctica borrar las credenciales inmediatamente tras iniciar sesión
       setEmail('');
       setPassword('');
+      setIntentos(0);
     } catch (err) {
-      // Si falla el inicio de sesión (credenciales incorrectas), redirigimos
-      window.location.replace('/');
+      const nuevosIntentos = intentos + 1;
+      if (nuevosIntentos >= 5) {
+        window.location.replace('/');
+      } else {
+        setIntentos(nuevosIntentos);
+        setErrorMsg(`Credenciales incorrectas. Te quedan ${5 - nuevosIntentos} intento(s).`);
+      }
     }
   };
 
@@ -41,6 +49,13 @@ export function AdminLogin() {
             required
           />
         </div>
+
+        {errorMsg && (
+          <div style={{ color: 'red', marginBottom: '1rem', fontWeight: 'bold' }}>
+            {errorMsg}
+          </div>
+        )}
+
         <button type="submit">Entrar</button>
       </form>
     </div>

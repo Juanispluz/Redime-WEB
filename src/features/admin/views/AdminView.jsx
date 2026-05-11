@@ -59,9 +59,6 @@ export function AdminView() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       unsubscribe();
-      if (!isReloading) {
-        signOut(auth);
-      }
     };
   }, []);
 
