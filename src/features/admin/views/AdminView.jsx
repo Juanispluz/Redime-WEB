@@ -11,6 +11,10 @@ export function AdminView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isReloading = false;
+    const handleBeforeUnload = () => { isReloading = true; };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true);
       if (currentUser) {
@@ -52,7 +56,13 @@ export function AdminView() {
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      unsubscribe();
+      if (!isReloading) {
+        signOut(auth);
+      }
+    };
   }, []);
 
   if (loading) {

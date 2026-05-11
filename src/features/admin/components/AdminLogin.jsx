@@ -22,7 +22,7 @@ export function AdminLogin() {
   return (
     <div style={{ padding: '2rem' }}>
       <h2>Login de Administrador</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} autoComplete="off">
         <div style={{ marginBottom: '1rem' }}>
           <label style={{ display: 'block' }}>Correo: </label>
           <input

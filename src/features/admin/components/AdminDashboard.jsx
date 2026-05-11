@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../services/firebaseClient';
+import { PublicacionForm } from './PublicacionForm';
 
 export function AdminDashboard({ user }) {
   const handleLogout = async () => {
@@ -44,7 +45,7 @@ export function AdminDashboard({ user }) {
       <button onClick={handleLogout} style={{ marginBottom: '2rem' }}>Cerrar Sesión</button>
 
       <div>
-        <p>Contenido del panel de administrador en construcción...</p>
+        <PublicacionForm user={user} />
       </div>
     </div>
   );
