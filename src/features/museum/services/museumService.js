@@ -76,8 +76,8 @@ export const museumService = {
           ? data.id_usuario.split('/').pop()
           : data.id_usuario?.id || 'default';
 
-        // Asumimos formato .png (ej: public/fotos_usuarios/test_user_123/disp_test_001.webp)
-        const finalImgUrl = `/fotos_usuarios/${userIdSegment}/${data.id}.webp`;
+        // Asumimos formato .png (ej: public/imgs-db/usuarios/test_user_123/disp_test_001.webp)
+        const finalImgUrl = `/imgs-db/usuarios/${userIdSegment}/${data.id}.webp`;
 
         devices.push({
           id: data.id,
