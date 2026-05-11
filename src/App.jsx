@@ -6,12 +6,14 @@ import { HomeView } from './features/home';
 import { MuseumView, ExhibitionDetailView } from './features/museum';
 import { BlogView, BlogDetailView } from './features/blog';
 import { StatusDbView } from './features/database';
+import { AdminView } from './features/admin';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/status-db" element={<StatusDbView />} />
+        <Route path="/admin/*" element={<AdminView />} />
         <Route
           path="/*"
           element={

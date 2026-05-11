@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 /**
  * Configuración del Firebase Client SDK.
@@ -21,4 +22,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 /** Instancia de Firestore lista para consultas. */
 const db = getFirestore(firebaseApp);
 
-export { firebaseApp, db };
+/** Instancia de Authentication. */
+const auth = getAuth(firebaseApp);
+
+export { firebaseApp, db, auth };
