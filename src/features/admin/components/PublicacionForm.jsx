@@ -236,7 +236,6 @@ export function PublicacionForm({ user }) {
                 src={imagenPreview}
                 alt="Preview"
                 style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain', border: '1px solid #ccc', borderRadius: '4px', padding: '4px' }}
-                onError={(e) => { e.target.src = '/no_image.png'; }}
               />
             )}
           </div>
@@ -276,9 +275,9 @@ export function PublicacionForm({ user }) {
               {publicaciones.map((pub) => (
                 <tr key={pub.id} style={{ borderBottom: '1px solid #eee' }}>
                   <td style={{ padding: '0.5rem' }}>
-                    <img 
-                      src={getDynamicImageUrl(pub)} 
-                      alt="Pub" 
+                    <img
+                      src={getDynamicImageUrl(pub)}
+                      alt="Pub"
                       style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
                       onError={(e) => { e.target.src = '/no_image.png'; }}
                     />

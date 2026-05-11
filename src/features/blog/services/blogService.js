@@ -1,4 +1,4 @@
-import { collection, query, where, orderBy, limit, startAfter, getDocs } from 'firebase/firestore';
+import { collection, query, orderBy, limit, startAfter, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../services/firebaseClient';
 
 export const blogService = {
@@ -69,6 +69,46 @@ export const blogService = {
       };
     } catch (error) {
       console.error('[blogService] Error obteniendo publicaciones:', error);
+      throw error;
+    }
+  },
+
+  getPublicacionById: async (id) => {
+    try {
+      const docRef = doc(db, 'publicaciones', id);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) return null;
+
+      const data = docSnap.data();
+      
+      let dateStr = '';
+      if (data.fecha) {
+        const d = data.fecha.toDate ? data.fecha.toDate() : new Date(data.fecha);
+        const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
+        dateStr = d.toLocaleDateString('es-CO', opciones).replace('.', '');
+      }
+
+      let imageUrl = data.imagenUrl || '';
+      if (!imageUrl && data.fecha) {
+        const d = data.fecha.toDate ? data.fecha.toDate() : new Date(data.fecha);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        imageUrl = `/imgs-db/publicaciones/${day}-${month}-${year}/${docSnap.id}.webp`;
+      } else if (!imageUrl) {
+        imageUrl = '/no_image.png';
+      }
+
+      return {
+        id: docSnap.id,
+        title: data.titulo || 'Sin título',
+        contentHeading: data.subtitulo || '',
+        contentParagraphs: data.descripcion ? data.descripcion.split('\n') : [],
+        date: dateStr,
+        img: imageUrl
+      };
+    } catch (error) {
+      console.error('[blogService] Error obteniendo publicación por ID:', error);
       throw error;
     }
   }
