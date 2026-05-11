@@ -2,38 +2,10 @@ import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
+import { useBlogViewModel } from '../viewmodels/useBlogViewModel';
 
 const BlogView = () => {
-  const blogs = [
-    {
-      id: 1,
-      title: "Logramos 10 toneladas esta semana",
-      desc: "Gracias al compromiso ciudadano y superamos nuestra meta ambiental de octubre.",
-      date: "5 de Nov 2025",
-      img: "/blog_1.png"
-    },
-    {
-      id: 2,
-      title: "Nuestra nueva instalación en marcha",
-      desc: "Nuestra recién inaugurada planta permite que reciclemos un 50% más rápido.",
-      date: "12 de Nov 2025",
-      img: "/blog_2.png"
-    },
-    {
-      id: 3,
-      title: "Enseñanza sobre el reciclaje en escuelas",
-      desc: "Nos enorgullece anunciar nuestra alianza educativa en más de 20 escuelas.",
-      date: "18 de Nov 2025",
-      img: "/blog_3.png"
-    },
-    {
-      id: 4,
-      title: "Impacto del reciclaje de baterías",
-      desc: "Cómo el correcto desecho de pilas y acumuladores previene desastres ecológicos.",
-      date: "24 de Nov 2025",
-      img: "/blog_4.png"
-    }
-  ];
+  const { blogs, loading, error, hasMore, loadMore } = useBlogViewModel();
 
   return (
     <div className="blog-page">
@@ -49,15 +21,31 @@ const BlogView = () => {
           <p className="section-desc">En este blog podrás encontrar las novedades del proyecto, sus hitos más importantes y más.</p>
         </div>
 
-        <div className="blog-grid">
-          {blogs.map(item => (
-            <BlogCard key={item.id} {...item} />
-          ))}
-        </div>
+        {error && <div style={{ color: 'red', textAlign: 'center', margin: '1rem 0' }}>{error}</div>}
 
-        <div className="text-center mt-8 mb-8">
-          <button className="btn btn-lime">Ver más</button>
-        </div>
+        {!loading && blogs.length === 0 ? (
+          <div style={{ textAlign: 'center', marginTop: '3rem', fontSize: '1.2rem', color: '#666' }}>
+            Aun no hay publicaciones
+          </div>
+        ) : (
+          <div className="blog-grid">
+            {blogs.map(item => (
+              <BlogCard key={item.id} {...item} />
+            ))}
+          </div>
+        )}
+
+        {hasMore && (
+          <div className="text-center mt-8 mb-8">
+            <button className="btn btn-lime" onClick={loadMore} disabled={loading}>
+              {loading ? 'Cargando...' : 'Ver más'}
+            </button>
+          </div>
+        )}
+        
+        {loading && blogs.length === 0 && (
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>Cargando publicaciones...</div>
+        )}
       </div>
     </div>
   );
