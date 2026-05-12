@@ -1,1 +1,1 @@
-export * from './views/AdminView';
+export { AdminView } from './views/AdminView';

@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import multer from 'multer';
-import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
+import { inicializarGPG } from './backend/src/config/gpg.js';
+import { descifrarRequest, cifrarResponse } from './backend/src/middleware/gpgMiddleware.js';
+import crearRouterUpload from './backend/src/features/upload/routes/uploadRoutes.js';
 
 dotenv.config();
 
@@ -23,6 +24,14 @@ const allowedOrigins = [
   'http://localhost:5500',
 ].filter(Boolean);
 
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '0');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://*.firebaseio.com https://*.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com; font-src 'self'; frame-src 'self' https://*.firebaseapp.com");
+  next();
+});
+
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -35,9 +44,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 if (isProduction) {
   app.use('/imgs-db', express.static(path.join(__dirname, 'imgs-db'), {
     setHeaders(res, filePath) {
@@ -48,41 +54,13 @@ if (isProduction) {
   }));
 }
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-app.post('/api/upload', upload.single('image'), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No se envió ninguna imagen.' });
-    }
+app.use(descifrarRequest);
+app.use(cifrarResponse);
 
-    const targetPath = req.body.path;
-    if (!targetPath) {
-      return res.status(400).json({ error: 'No se especificó la ruta (path) de destino.' });
-    }
-
-    const safePath = path.normalize(targetPath).replace(/^(\.\.[\/\\])+/, '');
-    const absoluteTargetDir = path.resolve(__dirname, safePath);
-
-    if (!fs.existsSync(absoluteTargetDir)) {
-      fs.mkdirSync(absoluteTargetDir, { recursive: true });
-    }
-
-    const absoluteFilePath = path.join(absoluteTargetDir, req.file.originalname);
-
-    fs.writeFileSync(absoluteFilePath, req.file.buffer);
-
-    console.log(`[Upload] Archivo guardado con éxito en: ${absoluteFilePath}`);
-
-    const virtualUrl = `/${safePath}/${req.file.originalname}`.replace(/\\/g, '/');
-
-    res.status(200).json({ url: virtualUrl, success: true });
-  } catch (error) {
-    console.error('[Upload] Error subiendo el archivo:', error);
-    res.status(500).json({ error: 'Error interno al guardar la imagen.' });
-  }
-});
+app.use(crearRouterUpload());
 
 if (isProduction) {
   app.use(express.static(path.join(__dirname, 'dist')));
@@ -99,6 +77,17 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor ${isProduction ? 'PRODUCCIÓN' : 'DESARROLLO'} corriendo en puerto ${PORT}`);
-});
+async function iniciar() {
+  try {
+    await inicializarGPG();
+    console.log('[GPG] Sistema de cifrado listo');
+  } catch (err) {
+    console.warn('[GPG] No se pudo inicializar GPG:', err.message);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Servidor ${isProduction ? 'PRODUCCIÓN' : 'DESARROLLO'} corriendo en puerto ${PORT}`);
+  });
+}
+
+iniciar();

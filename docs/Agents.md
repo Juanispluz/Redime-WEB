@@ -398,3 +398,19 @@ del equipo responsable, ya que esos cambios afectan a todos los features.
 
 *Última actualización: Marzo 2026*
 *Versión: 2.0 — Arquitectura Monolítica Modular + MVVM Explícito + Seguridad GPG*
+
+## 14. Estado Actual de la Implementación
+
+### ✓ Implementado
+- [x] MVVM en feature `admin` (views, components, viewmodels, services)
+- [x] Backend en capas: `backend/src/features/upload/` (routes, controllers, services)
+- [x] Middleware de seguridad: JWT (Firebase Auth), Rate Limiting, CORS
+- [x] Cifrado GPG: request cifrado con llave pública del backend, response cifrado con llave pública del frontend
+- [x] httpClient en `src/services/httpClient.js` con interceptores GPG
+- [x] Rate limiting: upload (20/15min), GET (100/15min), API (50/15min)
+- [x] Documentación: API.md, SECURITY.md, DEPLOY.md
+- [x] Generación automática de llaves GPG en `keys/`
+
+### Pendiente
+- [ ] Refactorizar features `blog`, `database`, `home`, `museum` a MVVM
+- [ ] Migración completa a httpClient en todos los services
