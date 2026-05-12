@@ -71,25 +71,21 @@ export function PublicacionForm({ user }) {
     const folderPath = `imgs-db/publicaciones/${day}-${month}-${year}`;
 
     const formData = new FormData();
-    // Utilizar el ID de la publicación como nombre
     const filename = `${pubId}.webp`;
     formData.append('image', imagenBlob, filename);
     formData.append('path', folderPath);
 
-    try {
-      const response = await fetch('http://localhost:3000/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
 
-      if (!response.ok) throw new Error('Error en el servidor al subir la imagen');
-      const data = await response.json();
-      return data.url || `/${folderPath}/${filename}`;
-    } catch (err) {
-      console.warn('Advertencia: Error subiendo imagen al servidor Node, usando fallback de ruta:', err);
-      // Si el servidor no está listo, retornamos la ruta final que debería tener para no bloquear
-      return `/${folderPath}/${filename}`;
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.error || 'Error al subir la imagen');
     }
+    const data = await response.json();
+    return data.url;
   };
 
   const handleSubmit = async (e) => {
@@ -104,7 +100,6 @@ export function PublicacionForm({ user }) {
 
     setSubmitting(true);
     try {
-      // Creamos la referencia al documento ANTES para obtener el ID real
       const pubRef = editingId ? doc(db, 'publicaciones', editingId) : doc(collection(db, 'publicaciones'));
       const pubId = pubRef.id;
 
@@ -122,7 +117,6 @@ export function PublicacionForm({ user }) {
           ...(uploadedUrl && { imagenUrl: uploadedUrl }),
         });
       } else {
-        // En lugar de addDoc, usamos setDoc porque ya generamos el doc reference (pubRef)
         const { setDoc } = await import('firebase/firestore');
         await setDoc(pubRef, {
           id_usuario: doc(db, 'usuarios', user.uid),
@@ -140,7 +134,7 @@ export function PublicacionForm({ user }) {
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       console.error('Error:', err);
-      setError('Error al guardar la publicación: ' + err.message);
+      setError(err.message || 'Error al guardar la publicación');
     } finally {
       setSubmitting(false);
     }
@@ -151,7 +145,7 @@ export function PublicacionForm({ user }) {
     setSubtitulo(pub.subtitulo || '');
     setDescripcion(pub.descripcion || '');
     setImagenUrl(pub.imagenUrl || '');
-    setImagenPreview(getDynamicImageUrl(pub));
+    setImagenPreview(pub.imagenUrl || null);
     setImagenBlob(null);
     setEditingId(pub.id);
     setError('');
