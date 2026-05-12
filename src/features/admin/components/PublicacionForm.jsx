@@ -94,10 +94,14 @@ export function PublicacionForm({ user }) {
     setSuccess(false);
 
     if (!titulo || !subtitulo || !descripcion) {
-      setError('Todos los campos son obligatorios');
+      setError("Todos los campos son obligatorios");
       return;
     }
 
+    if (!imagenBlob && !imagenUrl) {
+      setError("Debes seleccionar una imagen para la publicacion");
+      return;
+    }
     setSubmitting(true);
     try {
       const pubRef = editingId ? doc(db, 'publicaciones', editingId) : doc(collection(db, 'publicaciones'));
