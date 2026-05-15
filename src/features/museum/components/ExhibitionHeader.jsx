@@ -9,10 +9,10 @@ const ExhibitionHeader = ({ heroImg, tag, title, sub }) => {
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     }}>
+      <Link to="/museo" className="back-arrow-exh" style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
+        <ArrowLeft size={32} />
+      </Link>
       <div className="container" style={{ position: 'relative' }}>
-        <Link to="/museo" className="back-arrow-exh" style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
-          <ArrowLeft size={32} />
-        </Link>
         <div className="exh-det-header-content text-center">
           <span className="text-blue-tag" style={{ color: '#e4f2e7', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>{tag}</span>
           <h1 className="exh-det-title" style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>{title}</h1>

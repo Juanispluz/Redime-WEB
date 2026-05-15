@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { exhibitionData } from '../data/exhibitionData';
 import ExhibitionHeader from '../components/ExhibitionHeader';
@@ -9,6 +9,10 @@ import { useMuseumViewModel } from '../viewmodels/useMuseumViewModel';
 const ExhibitionDetailView = () => {
   const { id } = useParams();
   const exh = exhibitionData[id] || exhibitionData[1];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   // Mapeo del ID de exhibición a las categorías de dispositivos en la Base de Datos
   const categoryMap = {

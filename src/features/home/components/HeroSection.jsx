@@ -58,11 +58,11 @@ const HeroSection = () => {
         alignItems: 'center',
         position: 'relative'
       }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,30,20,0.55)', zIndex: 1 }}></div>
-      <div className="container hero-container-v2" style={{ padding: '2.5rem', zIndex: 10, position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,30,20,0.7)', zIndex: 1 }}></div>
+      <div className="container hero-container-v2" style={{ padding: '2.5rem', zIndex: 10, position: 'relative', margin: '0 auto', textAlign: 'center' }}>
         <span className="badge-meta">{slides[currentSlide].badge}</span>
         <h1 className="hero-title-v2" style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.6)' }}>{slides[currentSlide].title}</h1>
-        <p className="hero-subtitle-v2" style={{ color: '#e5e7eb', marginBottom: '1.5rem', textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>{slides[currentSlide].desc}</p>
+        <p className="hero-subtitle-v2" style={{ color: '#e5e7eb', marginBottom: '1.5rem', textShadow: '1px 1px 3px rgba(0,0,0,0.8)', maxWidth: '600px', margin: '0 auto 1.5rem' }}>{slides[currentSlide].desc}</p>
         <Link to={`/blog/${slides[currentSlide].id}`} className="btn btn-primary mt-4" style={{border: 'none', display: 'inline-flex'}}>
           {slides[currentSlide].btnText} <ArrowRight size={16} />
         </Link>
