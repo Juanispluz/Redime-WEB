@@ -25,6 +25,7 @@ const Header = () => {
         <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
           <a href="/museo" onClick={() => setMobileMenuOpen(false)}>Museo digital</a>
           <a href="/blog" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+          <a href="/encuesta" onClick={() => setMobileMenuOpen(false)}>Encuesta</a>
         </nav>
 
         <div className="header-actions">
