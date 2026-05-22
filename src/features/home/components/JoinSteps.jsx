@@ -182,6 +182,23 @@ const JoinSteps = () => {
             <a href="#" className="join-v2-dl-btn">
               <img src="/Próximamente en App Store_1.png" alt="Próximamente en App Store" />
             </a>
+            <a href="/redime_app.apk" download className="join-v2-apk-btn">
+              <div className="join-v2-apk-icon">
+                <svg viewBox="0 0 24 24" fill="#a4c639" width="24" height="24">
+                  <path d="M7.02 5.51l-.97-.97a.5.5 0 0 0-.71 0 .5.5 0 0 0 0 .71l1.1 1.1c.14.14.37.1.48-.07.65-.96 1.5-1.74 2.48-2.28a.508.508 0 0 0 .22-.68c-.1-.2-.33-.28-.53-.18-.94.52-1.76 1.27-2.39 2.18-.08.12-.22.18-.36.17zm9.96 0l.97-.97c.2-.2.51-.2.71 0s.2.51 0 .71l-1.1 1.1c-.12.12-.31.14-.45.04-.67-.98-1.55-1.77-2.56-2.31a.508.508 0 0 0-.68.22.5.5 0 0 0 .22.68c.96.51 1.8 1.26 2.44 2.19.08.12.22.18.36.17.15 0 .28-.06.39-.17z" />
+                  <path d="M6 10c0-3.31 2.69-6 6-6s6 2.69 6 6H6z" />
+                  <circle cx="9.5" cy="7.5" r="0.75" fill="white" />
+                  <circle cx="14.5" cy="7.5" r="0.75" fill="white" />
+                  <path d="M6 11h12c.55 0 1 .45 1 1v8c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-8c0-.55.45-1 1-1z" />
+                  <path d="M3.5 12c.55 0 1 .45 1 1v5c0 .55-.45 1-1 1s-1-.45-1-1v-5c0-.55.45-1 1-1zm17 0c.55 0 1 .45 1 1v5c0 .55-.45 1-1 1s-1-.45-1-1v-5c0-.55.45-1 1-1z" />
+                  <path d="M9 22.5c0 .55-.45 1-1 1s-1-.45-1-1v-2h2v2zm7 0c0 .55-.45 1-1 1s-1-.45-1-1v-2h2v2z" />
+                </svg>
+              </div>
+              <div className="join-v2-apk-text">
+                <span className="join-v2-apk-sub">DESCARGA DIRECTA</span>
+                <span className="join-v2-apk-main">Archivo APK</span>
+              </div>
+            </a>
           </div>
         </div>
 

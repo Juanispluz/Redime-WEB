@@ -29,7 +29,7 @@ const companions = [
     model: 'Blackberry',
     owner: 'Nicolas',
     age: '12 años',
-    instagramUrl: 'https://www.instagram.com/berry.black145?utm_source=qr&igsh=MXhxMDZxMzh6Y3Y2bA==',
+    instagramUrl: 'https://www.instagram.com/berry.b147?utm_source=qr&igsh=MXhxMDZxMzh6Y3Y2bA==',
     story: 'Yo fui la voz de Nicolás. No exagero. Antes de que existieran las pantallas infinitas, yo era el centro de su universo. Recuerdo el ritmo frenético de sus dedos sobre mi teclado físico; chateábamos con todo el mundo. Le dábamos las buenas noches a su mamá, coordinábamos los partidos con los amigos del barrio y hacíamos planes con sus compañeros de entreno. Pero, sobre todo, vivíamos con su novia. De tanto escribir mis teclas empezaron a desprenderse poco a poco, a tal punto que Nico ya no podía escribir bien, así considero la idea de comprarse un teléfono de gama alta de nueva generación, yo… no podía competir contra eso, e inevitablemente terminaba en un cajón de medias esperando algún día ser reparado.'
   },
   {
@@ -40,7 +40,7 @@ const companions = [
     model: 'Motorola Raz',
     owner: 'Juanita',
     age: '15 años',
-    instagramUrl: 'https://www.instagram.com/reemplazar_con_perfil_motorola',
+    instagramUrl: 'https://www.instagram.com/lola.razy2k?utm_source=qr&igsh=MWkzNzQ2ZWxneWY3cw==',
     story: 'Juanita y yo éramos inseparables. Yo era su espejo y su cómplice. Le encantaba cómo me veía en su mano mientras posaba frente al espejo, siempre bien arreglada, siempre divina. Yo capturaba su glamour. Hasta que un día, por un descuido me dejó caer, mi pantalla se rompió y ahora ella ya no podía verse más. Quedé devastada. Juanita me prometió arreglarme, pero lo único que hizo fue dejarme en un cajón por varios años y luego botarme a la basura, como si nuestros recuerdos juntos no hubieran valido nada.'
   },
   {
@@ -51,7 +51,7 @@ const companions = [
     model: 'Sony Ericsson',
     owner: 'Daniel',
     age: '13 años',
-    instagramUrl: 'https://www.instagram.com/reemplazar_con_perfil_sony',
+    instagramUrl: 'https://www.instagram.com/berry.b147?utm_source=qr&igsh=MXhxMDZxMzh6Y3Y2bA==',
     story: 'Yo no era solo un teléfono; era el ojo y el oído de Daniel. Él era un bohemio, un buscador de momentos que no necesitaba una resolución perfecta para encontrar la poesía en lo cotidiano. Juntos capturamos cientos de atardeceres sobre el Valle de Aburrá que hoy llamarían "pixelados". Lastimosamente todo cambió cuando Daniel consiguió su primer empleo y con él pudo comprarse una buena cámara y unos buenos audífonos. Yo quedé en segundo plano, solo para comunicarse. Un día me caí detrás de la cama y él me buscó pero sin tanto ánimo, y luego de no encontrarme por unas semanas decidió comprarse un smartphone, dejándome obsoleto en su totalidad.'
   }
 ];
