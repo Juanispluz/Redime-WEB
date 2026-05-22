@@ -233,8 +233,8 @@
 }
 .splash-cta-btn:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 16px 40px rgba(74, 182, 154, 0.5);
-  animation: none;
+  box-shadow: 0 16px 40px rgba(74, 182, 154, 0.5) !important;
+  animation-play-state: paused;
 }
 .splash-cta-btn:hover::before {
   opacity: 1;
