@@ -1,0 +1,98 @@
+// Ruta: /usuarios/{id_usuario}
+{
+  "nombre": "Ana",                  // String
+  "apellido": "Pérez",              // String
+  "correo": "ana.perez@redime.co",  // String
+  "telefono": "3333333333",         // Int64
+  "direccion": "Cl. 10 #45-20",     // String (puede ser null/omitido)
+  "cedula": "102030",               // Int64
+  "tipo_usuario": "donante",        // String ("donante", "visitante", "administrador")
+  "fecha_registro": "2026-05-09T00:00:00Z" // Timestamp
+}
+
+Nota sobre preferencia_usuario: Como un usuario tiene un set de preferencias, en lugar de crear una subcolección (como decía el SQL), en NoSQL es mucho más eficiente embeberlo como un Mapa (Objeto) dentro del mismo documento del usuario para ahorrar costos de lectura:
+"preferencias": {
+  "tipo_procesamiento_preferido": "commemoration", // String
+  "consentimiento_publicacion": true               // Boolean
+}
+
+
+// Ruta: /puntos_recoleccion/{id_punto}
+{
+  "nombre": "EcoPunto Centro",      // String
+  "direccion": "Cra. 52 #44-17", // String
+  "ubicacion": [6.2447, -75.5738],  // Tipo: GeoPoint (reemplaza lat y lng)
+  "horario": "Lun-Sáb 8:00-18:00",  // String
+  "tipos_aceptados": ["largeAppliance", "smallAppliance"], // Array (Mejor que un CSV como en SQL)
+  "activo": true                    // Boolean
+}
+
+
+// Ruta: /dispositivos/{id_dispositivo}
+{
+  "id_usuario": "referencia a /usuarios/1111...", // Reference o String
+  "marca": "Apple",                 // String
+  "modelo": "iPhone 6",             // String
+  "ano_aproximado": 2014,           // INT64
+  "tipo_dispositivo": "telecommunications", // String
+  "peso_estimado": 0.13,            // Double
+  "antiguedad": "más de 10 años",   // String
+  "funciona": false,                // Boolean
+  "pieza_entera": true,             // Boolean
+  "fecha_registro": "2026-05-09T00:00:00Z", // Timestamp
+
+  // La tabla historia_dispositivo se convierte en un objeto embebido (1:1)
+  "historia": {
+    "texto_historia": "Me llamaban...", // String
+    "fecha_generacion": "2026-05-09",   // Timestamp
+    "estado_aprobacion": "aprobada",    // String
+    "extracto": "Un iPhone 6 que...",   // String
+    "publica": true                     // Boolean
+  }
+}
+
+Subcolección de Dispositivos: /tracking
+Como un dispositivo tendrá múltiples estados a lo largo del tiempo (relación 1:N que crece), esto sí debe ser una subcolección.
+// Ruta: /dispositivos/{id_dispositivo}/tracking/{id_tracking}
+{
+  "etapa": "delivery",              // String
+  "subestado": "Solicitud recibida",// String
+  "fecha_actualizacion": "2026-05-09T14:30:00Z", // Timestamp
+  "procesamiento_tipo": "commemoration" // String
+}
+
+
+// Ruta: /solicitudes/{id_solicitud}
+{
+  "id_usuario": "referencia a /usuarios/1111...",         // Reference
+  "id_dispositivo": "referencia a /dispositivos/disp1...",// Reference
+  "id_punto": "referencia a /puntos_recoleccion/punto1...", // Reference (Null si es a domicilio)
+  "fecha_solicitud": "2026-05-09T00:00:00Z",              // Timestamp
+  "metodo_entrega": "homePickup",                         // String
+  "direccion": "Cl. 10 #45-20...",                        // String
+  "fecha_preferida": "2026-05-12T00:00:00Z",              // Timestamp
+  "estado_solicitud": "pendiente"                         // String
+}
+
+
+// Ruta: /solicitudes/{id_solicitud}
+{
+  "id_usuario": "referencia a /usuarios/1111...",         // Reference
+  "id_dispositivo": "referencia a /dispositivos/disp1...",// Reference
+  "id_punto": "referencia a /puntos_recoleccion/punto1...", // Reference (Null si es a domicilio)
+  "fecha_solicitud": "2026-05-09T00:00:00Z",              // Timestamp
+  "metodo_entrega": "homePickup",                         // String
+  "direccion": "Cl. 10 #45-20...",                        // String
+  "fecha_preferida": "2026-05-12T00:00:00Z",              // Timestamp
+  "estado_solicitud": "pendiente"                         // String
+}
+
+
+// Ruta: /publicaciones/{id_publicacion}
+{
+  "id_usuario": "referencia a /usuarios/1111...",         // Reference"
+  "descripcion": "Lorem ipsum...",                       // String
+  "fecha": "5 de noviembre de 2025 a las 12:00:00 a.m. UTC-5", // timestamp
+  "Subtitulo": "Cada vez más cerca de nuestra meta", // String
+  "titulo": "Logramos 10 toneladas esta semana"      // String
+}

@@ -5,8 +5,8 @@ import MuseumCard from '../components/MuseumCard';
 
 const MuseumView = () => {
   const exhibitions = [
-    { id: '2', exhibitionNum: '2', title: 'El Faro del Ojo Público', imgSrc: '/museo_2.png', imgAlt: 'El Faro' },
     { id: '1', exhibitionNum: '1', title: 'El Trono del Espectador Olvidado', imgSrc: '/museo_1.png', imgAlt: 'El Trono' },
+    { id: '2', exhibitionNum: '2', title: 'El Faro del Ojo Público', imgSrc: '/museo_2.png', imgAlt: 'El Faro' },
     { id: '3', exhibitionNum: '3', title: 'El Altar del Primer Esfuerzo', imgSrc: '/museo_3.png', imgAlt: 'El Altar' }
   ];
 

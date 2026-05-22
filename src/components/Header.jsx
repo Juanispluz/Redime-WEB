@@ -22,9 +22,10 @@ const Header = () => {
           <a href="/" className="logo-text">REDIME</a>
         </div>
 
-        <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`} style={{ marginLeft: 'auto', marginRight: '2rem' }}>
+        <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
           <a href="/museo" onClick={() => setMobileMenuOpen(false)}>Museo digital</a>
           <a href="/blog" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+          <a href="/encuesta" onClick={() => setMobileMenuOpen(false)}>Encuesta</a>
         </nav>
 
         <div className="header-actions">

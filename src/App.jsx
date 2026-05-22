@@ -2,6 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Hero from './components/Hero';
+import SurveyView from './features/home/views/SurveyView';
+
+
 import { HomeView } from './features/home';
 import { MuseumView, ExhibitionDetailView } from './features/museum';
 import { BlogView, BlogDetailView } from './features/blog';
@@ -19,6 +23,8 @@ function App() {
           element={
             <div className="app-container">
               <Header />
+              <Hero />
+
               <main>
                 <Routes>
                   <Route path="/" element={<HomeView />} />
@@ -26,7 +32,8 @@ function App() {
                   <Route path="/museo/:id" element={<ExhibitionDetailView />} />
                   <Route path="/blog" element={<BlogView />} />
                   <Route path="/blog/:id" element={<BlogDetailView />} />
-                </Routes>
+        <Route path="/encuesta" element={<SurveyView />} />
+        </Routes>
               </main>
               <Footer />
             </div>

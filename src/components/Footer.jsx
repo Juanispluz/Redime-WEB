@@ -6,7 +6,10 @@ const Footer = () => {
     <footer className="footer">
       <div className="container footer-container">
         <div className="footer-col">
-          <h3 className="footer-logo">REDIME</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
+            <img src="/redime_logo_blanco.webp" alt="Redime Logo" style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
+            <h3 className="footer-logo" style={{ marginBottom: 0 }}>REDIME</h3>
+          </div>
           <p className="footer-desc">
             Un proyecto de diseño Crossmedia para la gestión de RAEE en Medellín. Rescatando memorias, salvando el futuro.
           </p>
